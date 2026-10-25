@@ -1,0 +1,516 @@
+{
+  "info": {
+    "name": "Futsal Booking",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/register",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "register"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nama\":\"Ega\",\"email\":\"ega@mail.com\",\"password\":\"rahasia123\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code 201, 400\", function () {",
+              "    pm.expect([201, 400]).to.include(pm.response.code);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\":\"ega@mail.com\",\"password\":\"rahasia123\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const data = pm.response.json();",
+              "if (data.token) {",
+              "    pm.collectionVariables.set(\"token\", data.token);",
+              "}",
+              "pm.test(\"Status code 200\", function () {",
+              "    pm.expect([200]).to.include(pm.response.code);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tambah Lapangan",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/courts",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "courts"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nama\":\"Lapangan A\",\"harga_per_jam\":100000}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code 201\", function () {",
+              "    pm.expect([201]).to.include(pm.response.code);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Daftar Lapangan",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/courts",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "courts"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code 200\", function () {",
+              "    pm.expect([200]).to.include(pm.response.code);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Buat Booking",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"court_id\":1,\"mulai\":\"2026-11-01T19:00:00+07:00\",\"selesai\":\"2026-11-01T20:00:00+07:00\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code 201\", function () {",
+              "    pm.expect([201]).to.include(pm.response.code);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bentrok Persis",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"court_id\":1,\"mulai\":\"2026-11-01T19:00:00+07:00\",\"selesai\":\"2026-11-01T20:00:00+07:00\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code 409\", function () {",
+              "    pm.expect([409]).to.include(pm.response.code);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bentrok Sebagian",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"court_id\":1,\"mulai\":\"2026-11-01T19:30:00+07:00\",\"selesai\":\"2026-11-01T20:30:00+07:00\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code 409\", function () {",
+              "    pm.expect([409]).to.include(pm.response.code);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Booking Menempel",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"court_id\":1,\"mulai\":\"2026-11-01T20:00:00+07:00\",\"selesai\":\"2026-11-01T21:00:00+07:00\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code 201\", function () {",
+              "    pm.expect([201]).to.include(pm.response.code);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tanpa Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"court_id\":1,\"mulai\":\"2026-11-01T19:00:00+07:00\",\"selesai\":\"2026-11-01T20:00:00+07:00\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code 401\", function () {",
+              "    pm.expect([401]).to.include(pm.response.code);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Booking Saya",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code 200\", function () {",
+              "    pm.expect([200]).to.include(pm.response.code);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Batalkan Booking",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/bookings/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings",
+            "1"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code 200, 404\", function () {",
+              "    pm.expect([200, 404]).to.include(pm.response.code);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Booking Setelah Batal",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/bookings",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "bookings"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"court_id\":1,\"mulai\":\"2026-11-01T19:00:00+07:00\",\"selesai\":\"2026-11-01T20:00:00+07:00\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code 201\", function () {",
+              "    pm.expect([201]).to.include(pm.response.code);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
